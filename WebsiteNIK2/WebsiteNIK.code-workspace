@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "WebsiteNIK",
+			"path": ".."
+		},
+		{
+			"name": "WebsiteNIK2",
+			"path": "../../WebsiteNIK2"
+		}
+	],
+	"settings": {}
+}

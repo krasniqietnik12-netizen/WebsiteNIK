@@ -1,0 +1,584 @@
+<!-- In your main website, update the Creative Portfolio item -->
+<div class="portfolio-item">
+    <div class="portfolio-overlay">
+        <div class="portfolio-content">
+            <h3></h3>
+            <p></p>
+            <a href="portfolio-showcase.html" class="portfolio-link"></a>
+        </div>
+    </div>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Portfolio Showcase - WebSiteNIK</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateX(-5px);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-info {
+            padding: 1.5rem;
+        }
+
+        .gallery-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .gallery-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            animation: zoomIn 0.3s ease-out;
+        }
+
+        .lightbox-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 2rem;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-lightbox:hover {
+            background: rgba(0,0,0,0.8);
+            transform: scale(1.1);
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .nav-arrows:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .prev-arrow {
+            left: -70px;
+        }
+
+        .next-arrow {
+            right: -70px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin: 3rem 0;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .filter-buttons {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .nav-arrows {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">WebSiteNIK</div>
+<!-- Replace the existing back button in the header section -->
+<a href="https://krasniqietnik12-netizen.github.io/WebsiteNIK/" class="back-btn">
+    <i class="fas fa-arrow-left"></i>
+    Back to Main Site
+</a>
+
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Title -->
+            <div class="page-title">
+                <h1> Portfolio Showcase</h1>
+                <p>Explore our collection of creative projects and designs</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="web-design">Web Design</button>
+                <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="gallery">
+                <!-- Loading indicator -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Loading portfolio...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <div class="close-lightbox" id="closeLightbox">×</div>
+            <div class="prev-arrow nav-arrows" id="prevArrow">‹</div>
+            <div class="next-arrow nav-arrows" id="nextArrow">›</div>
+            <img src="" alt="" id="lightboxImg">
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDesc"></p>
+                <div class="gallery-tags" id="lightboxTags"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Portfolio data - Replace with your actual project images and info
+        const portfolioData = [
+            {
+                id: 1,
+                title: "Modern Restaurant Website",
+                description: "A sleek and modern restaurant website with advanced filtering.",
+                image: "https://snipboard.io/bdacBe.jpg",
+                category: "web-design",
+                tags: ["E-commerce", "Responsive", "Modern"]
+            },
+            {
+                id: 3,
+                title: "Mobile Restaurant Website",
+                description: "User-friendly mobile Restaurant application with secure and modern UI.",
+                image: "https://snipboard.io/N9Mo8Z.jpg",
+                category: "mobile",
+                tags: ["Mobile", "Banking", "UI/UX"]
+            },
+            {
+                id: 4,
+                title: "Drone Website",
+                description: "Elegant Drone Website.",
+                image: "https://snipboard.io/KLHf06.jpg",
+                category: "web-design",
+                tags: ["Restaurant", "Booking", "Menu"]
+            },
+            {
+                id: 6,
+                title: "Mobile Drone Website",
+                description: "Modern Drone app .",
+                image: "https://snipboard.io/6tcBgu.jpg",
+                category: "mobile",
+                tags: ["Fitness", "Mobile", "Tracking"]
+            }
+        ];
+
+        let currentImageIndex = 0;
+        let filteredData = portfolioData;
+
+        // Initialize the gallery
+        function initGallery() {
+            setTimeout(() => {
+                renderGallery(portfolioData);
+            }, 1000); // Simulate loading time
+        }
+
+        // Render gallery items
+        function renderGallery(data) {
+            const gallery = document.getElementById('gallery');
+            
+            if (data.length === 0) {
+                gallery.innerHTML = '<div class="loading">No projects found in this category.</div>';
+                return;
+            }
+
+            gallery.innerHTML = data.map((item, index) => `
+                <div class="gallery-item" data-category="${item.category}" onclick="openLightbox(${index})">
+                    <img src="${item.image}" alt="${item.title}" loading="lazy">
+                    <div class="gallery-info">
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <div class="gallery-tags">
+                            ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add animation delay to each item
+            const items = gallery.querySelectorAll('.gallery-item');
+            items.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+
+        // Filter functionality
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    
+                    const filter = btn.dataset.filter;
+                    
+                    if (filter === 'all') {
+                        filteredData = portfolioData;
+                    } else {
+                        filteredData = portfolioData.filter(item => item.category === filter);
+                    }
+                    
+                    renderGallery(filteredData);
+                });
+            });
+        }
+
+        // Lightbox functionality
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const item = filteredData[index];
+            
+            document.getElementById('lightboxImg').src = item.image;
+            document.getElementById('lightboxTitle').textContent = item.title;
+            document.getElementById('lightboxDesc').textContent = item.description;
+            document.getElementById('lightboxTags').innerHTML = 
+                item.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % filteredData.length;
+            openLightbox(currentImageIndex);
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + filteredData.length) % filteredData.length;
+            openLightbox(currentImageIndex);
+        }
+
+        // Event listeners
+        document.getElementById('closeLightbox').addEventListener('click', closeLightbox);
+        document.getElementById('nextArrow').addEventListener('click', nextImage);
+        document.getElementById('prevArrow').addEventListener('click', prevImage);
+        
+        // Close lightbox when clicking outside
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'ArrowLeft') prevImage();
+            }
+        });
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            initGallery();
+            setupFilters();
+        });
+    </script>
+</body>
+</html>
